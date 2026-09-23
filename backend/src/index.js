@@ -20,12 +20,11 @@ async function main() {
       resave: false,
       saveUninitialized: false,
       store: MongoStore.create({ mongoUrl: env.mongodbUri }),
-      cookie: {
-        httpOnly: true,
-        sameSite: 'lax',
-        secure: env.nodeEnv === 'production',
-        maxAge: 1000 * 60 * 60 * 24 * 7, // 7 days
-      },
+     cookie: { 
+        httpOnly: true, 
+        sameSite: env.nodeEnv === 'production' ? 'none' : 'lax', 
+        secure: env.nodeEnv === 'production', maxAge: 1000 * 60 * 60 * 24 * 7, // 7 days 
+       },
     })
   );
 
