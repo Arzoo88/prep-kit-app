@@ -11,6 +11,7 @@ import { notFound, errorHandler } from './middleware/errorHandler.js';
 async function main() {
   await connectDB();
   const app = express();
+  app.set('trust proxy', 1);
 
   app.use(cors({ origin: true, credentials: true }));
   app.use(express.json({ limit: '2mb' }));
@@ -20,11 +21,12 @@ async function main() {
       resave: false,
       saveUninitialized: false,
       store: MongoStore.create({ mongoUrl: env.mongodbUri }),
-     cookie: { 
-        httpOnly: true, 
-        sameSite: env.nodeEnv === 'production' ? 'none' : 'lax', 
-        secure: env.nodeEnv === 'production', maxAge: 1000 * 60 * 60 * 24 * 7, // 7 days 
-       },
+      cookie: {
+        httpOnly: true,
+        sameSite: env.nodeEnv === 'production' ? 'none' : 'lax',
+        secure: env.nodeEnv === 'production',
+        maxAge: 1000 * 60 * 60 * 24 * 7, // 7 days
+      },
     })
   );
 
